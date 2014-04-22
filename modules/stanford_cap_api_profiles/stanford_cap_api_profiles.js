@@ -2,13 +2,18 @@ Drupal.behaviors.cap_profiles_fields = function (context) {
   $('#fields input', context).click(function () {
     var parent_path = $(this).attr('parent');
     var checked = $(this).attr('checked');
-    // Field selected.
-    if (checked && parent_path.length !== 0) {
+    // Parent field selected.
+    if (checked && parent_path.length === 0) {
+      var child_path = $(this).attr('value');
+      child_set_checked_value(child_path, true, context);
+    }
+    // Child field selected.
+    else if (checked) {
       parent_set_checked(parent_path, context);
     }
     else {
-      var path = $(this).attr('value');
-      child_unset_checked(path, context);
+      var child_path = $(this).attr('value');
+      child_set_checked_value(child_path, false, context);
     }
   });
 
@@ -21,10 +26,10 @@ Drupal.behaviors.cap_profiles_fields = function (context) {
     }
   }
 
-  function child_unset_checked(path, context) {
+  function child_set_checked_value(path, value, context) {
     $('#fields input[parent="' + path + '"]', context).each(function (index, elem) {
-      $(elem).attr('checked', false);
-      child_unset_checked($(elem).attr('value'), context);
+      $(elem).attr('checked', value);
+      child_set_checked_value($(elem).attr('value'), value, context);
     });
   }
-}
+};
