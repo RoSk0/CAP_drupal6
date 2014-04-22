@@ -1152,6 +1152,7 @@ function _stanford_cap_api_profiles_generate_field_info($drupal_field_name, $fie
         // Date field.
         elseif (isset($props['value']) && isset($props['html']) && isset($props['text']) && count($props) == 3) {
           $schema = $props['value'];
+          $schema['weight'] = $field_schema['weight'];
           if ($schema['type'] == 'string') {
             if (isset($schema['format']) && $schema['format'] == 'DATE_TIME') {
               $info = _stanford_cap_api_profiles_gen_field_base_def_date($drupal_field_name, $field_name, $schema, $drupal_parent_field);
